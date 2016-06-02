@@ -1,6 +1,6 @@
-# Atom tree-ignore package
+# atom-ignore package
 
-> Use a .atomignore file to hide files & folder in tree view
+> Use a .atomignore file to hide files & folder in tree view and fuzzy finder
 
 * * *
 
@@ -17,8 +17,14 @@ It works like a regular `.gitignore` file, but only hide the files & folders in 
 
 Simply add an `.atomignore` file in your project.
 
-You can also control the state of hiding by using `tree-ignore:toggle`, `tree-ignore:enable` & `tree-ignore:disable` commands.
+You can also control the state of hiding by using `atom-ignore:toggle`, `atom-ignore:enable` & `atom-ignore:disable` commands.
 
 ## Keybindings
 
 With the success of Atom, it's really difficult to choose keybindings that will not enter in conflict whit anyone else's packages, so I have removed the default keystrokes and let the keymap empty to let you set your own keybindings.
+
+
+
+## Forked from atom-tree-ignore
+
+https://github.com/leny/atom-tree-ignore

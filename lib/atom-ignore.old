@@ -25,21 +25,23 @@ oPackageConfig = {
 };
 
 fActivate = function() {
+    console.log("[ATOM-IGNORE] AAAACTIVATING!")
     _oDisposables && _oDisposables.dispose();
     _oDisposables = new CompositeDisposable();
 
     _oDisposables.add( atom.commands.add( "atom-workspace", {
-        "tree-ignore:toggle": () => {
-            _fApply( !atom.config.get( "tree-ignore.enabled" ) );
+        "atom-ignore:toggle": () => {
+            _fApply( !atom.config.get( "atom-ignore.enabled" ) );
         },
-        "tree-ignore:enable": _fApply.bind( null, true ),
-        "tree-ignore:disable": _fApply.bind( null, false )
+        "atom-ignore:enable": _fApply.bind( null, true ),
+        "atom-ignore:disable": _fApply.bind( null, false )
     } ) );
 
     _oDisposables.add( atom.commands.add( ".platform-win32, .platform-linux, .platform-darwin", {
         "tree-view:toggle": _fUpdate.bind( null )
     } ) );
 
+    // TODO: get rid of this
     _oMutationObserver = new MutationObserver( _fTreeViewHasMutated );
 
     atom.packages.onDidActivateInitialPackages( () => {
@@ -47,8 +49,8 @@ fActivate = function() {
 
         _fProjectChangedPaths();
 
-        atom.config.observe( "tree-ignore.enabled", ( bNewValue ) => {
-            if ( bNewValue !== atom.config.get( "tree-ignore.enabled" ) ) {
+        atom.config.observe( "atom-ignore.enabled", ( bNewValue ) => {
+            if ( bNewValue !== atom.config.get( "atom-ignore.enabled" ) ) {
                 _fApply( bNewValue );
             }
         } );
@@ -64,11 +66,11 @@ fDeactivate = function() {
 };
 
 _fGetCurrentState = function() {
-    return atom.config.get( "tree-ignore.enabled" );
+    return atom.config.get( "atom-ignore.enabled" );
 };
 
 _fApply = function( bValue ) {
-    atom.config.set( "tree-ignore.enabled", bValue );
+    atom.config.set( "atom-ignore.enabled", bValue );
     _fUpdate();
 };
 
@@ -79,6 +81,7 @@ _fUpdate = function() {
         bHandleProject,
         bState = _fGetCurrentState();
 
+    // TODO: get rid of this
     if ( bState && document.querySelector( ".tree-view" ) ) {
         _oMutationObserver.observe( document.querySelector( ".tree-view" ), {
             "childList": true,
@@ -117,7 +120,7 @@ _fUpdate = function() {
                         _fUnhideParents( oIgnoredItems, sPath );
                     }
                 }
-                $parent.toggleClass( "tree-ignore-element", bState && bHandleProject && bFiltered );
+                $parent.toggleClass( "atom-ignore-element", bState && bHandleProject && bFiltered );
             }
         } );
 };
@@ -132,7 +135,7 @@ _fProjectChangedPaths = function() {
 };
 
 _fAddAtomIgnoreFiles = function() {
-    let sIgnoreFileName = atom.config.get( "tree-ignore.ignoreFileName" );
+    let sIgnoreFileName = atom.config.get( "atom-ignore.ignoreFileName" );
 
     _oAtomIgnoreFileDisposables && _oAtomIgnoreFileDisposables.dispose();
     _oAtomIgnoreFileDisposables = new CompositeDisposable();
@@ -140,7 +143,6 @@ _fAddAtomIgnoreFiles = function() {
 
     atom.project.getDirectories().forEach( ( oDirectory ) => {
         let oIgnoreFile = oDirectory.getFile( sIgnoreFileName );
-
         _oAtomIgnoreFiles[ _fNormalizePath( `${ oDirectory.getPath() }/` ) ] = oIgnoreFile;
         _oAtomIgnoreFileDisposables.add( oIgnoreFile.onDidChange( _fUpdate ) );
     } );
@@ -180,7 +182,7 @@ _fUnhideParents = function( oIgnoredItems, sPath ) {
         sParent = getParent( sParent );
         oItem = oIgnoredItems[ sParent ];
         if ( oItem != null ) {
-            oItem.removeClass( "tree-ignore-element" );
+            oItem.removeClass( "atom-ignore-element" );
         }
     }
 };
