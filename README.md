@@ -27,15 +27,14 @@ With the success of Atom, it's really difficult to choose keybindings that will 
 
 ## Caveats
 
-This package uses a key hook built into the default Atom packages TreeView, FuzzyFinder, and Find-and-Replace and for 'ignoring vcs'. For this package to work, you need to have "Exclude VCS Ignored Paths" set to true, and there has to be a valid git repo associated with the project that has the .atomignore. It doesn't work for random folders that aren't tracked by git (sorry, it's the only hook we could find!)
+This package monkey patches a key hook built into the default Atom packages TreeView, FuzzyFinder, and Find-and-Replace and for 'Exclude VCS Ignored Paths'. For this package to work, you need to have this option set to true, and there has to be a valid git repo associated with the project that has the `.atomignore` file in it. It doesn't work for random folders that aren't tracked by git (sorry, it was the only hook we could find!)
 
-Atom core **needs** better hooks to allow for useful packages like this one. Please log issues here:
+Atom core **needs** better hooks to allow for useful packages to edit things on a per-project basis. Please support this issue on the following repo trackers:
 - https://github.com/atom/fuzzy-finder/issues
 - https://github.com/atom/tree-view/issues
 - https://github.com/atom/find-and-replace/issues
 
-If all 3 of these packages gave us a project specific config that would exclude items, then everyone's life would be a lot easier!
-
+All 3 of these packages just needs to provide us a simple project specific config that other packages could set to exclude items. It'll make everyone's life would be a lot easier!
 
 
 
